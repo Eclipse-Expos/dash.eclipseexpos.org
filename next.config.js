@@ -1,4 +1,10 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {}
+const nextConfig = {};
 
-module.exports = nextConfig
+require('dotenv').config();
+
+module.exports = {
+	env: {
+		LOGIN_ROUTE: process.env.LOGIN_ROUTE,
+	},
+};

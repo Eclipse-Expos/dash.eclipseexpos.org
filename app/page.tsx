@@ -12,7 +12,7 @@ export default function Home() {
 					dashboard.
 				</p>
 				<Link
-					href='/signin'
+					href={process.env.LOGIN_ROUTE}
 					className='inline-block bg-blue-600 hover:bg-purple-700 py-2 px-4 rounded transition duration-300'
 				>
 					Log in
