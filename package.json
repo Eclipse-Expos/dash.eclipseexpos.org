@@ -24,7 +24,8 @@
     "react-dom": "^18",
     "server": "^1.0.38",
     "superjson": "^2.2.1",
-    "trpc": "^0.11.3"
+    "trpc": "^0.11.3",
+    "zod": "^3.22.4"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.2",
