@@ -6,7 +6,7 @@ import { revalidatePath } from "next/cache";
    export const UpdateInfo = async (formData: FormData)=>{
     const user = await getSessionUser();
     const status = await prisma.user.update({
-        where: {
+        where: { 
             id: user?.id
         },
         data: {
