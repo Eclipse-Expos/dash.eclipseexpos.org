@@ -12,7 +12,7 @@ export default async function Settings() {
         where: {
             id: (await getSessionUser())?.id
         }, include: {
-            MailingList: true
+            mailingList: true
         }
     
     })

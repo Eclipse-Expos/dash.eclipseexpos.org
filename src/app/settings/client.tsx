@@ -2,18 +2,33 @@
 import { preRegister, unRegister } from "@/lib/user/registration";
 import { Prisma } from "@prisma/client";
 import Link from "next/link";
-import { UpdateInfo } from "@/lib/user/UpdateInfo";
+import { UpdateInfo } from "@/lib/user/updateInfo";
 import { useState } from "react";
+import { ZodError, z } from 'zod';
+import { EditUser } from '../../schemas/EditUser';
 type Props = {
   user: Prisma.UserGetPayload<{
     include: {
-      MailingList: true;
+      mailingList: true;
     }
   }>;
 };
 
 export default function Client({user}: Props) {
     const [edit, setEdit] = useState(false);
+    const [formData, setFormData] = useState({
+        firstName: '',
+        lastName: '',
+    });
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData((prevData) => ({
+            ...prevData,
+            [name]: value,
+        }));
+    };
+
+    const [formErrors, setFormErrors] = useState('');
     return (<main className="p-4 text-left">
         <h1 className="text-3xl">
             {user ? `Welcome ${user.firstName}!` : "Not logged in."}
@@ -24,7 +39,7 @@ export default function Client({user}: Props) {
           Logout
       </Link>
                   <br />
-                  {user.MailingList?.preRegistered ? (
+                  {user.mailingList?.preRegistered ? (
               <div>
                   <h1>You are preregistered!</h1>
                   <form action={unRegister}>
@@ -48,18 +63,35 @@ export default function Client({user}: Props) {
                   </ul>
                   ):(
                   <div>
-                      <form action={(e: FormData) =>
+                      <form action={(e) =>
                       {
-                        UpdateInfo(e);
-                        setEdit(false);
+                        console.log(formData)
+                        try {
+                            const validatedData = EditUser.parse(formData);
+                            UpdateInfo(e);
+                            setEdit(false);
+                            setFormErrors('');
+                        } catch (error) {
+                            if (error instanceof z.ZodError) {
+                                setFormErrors(error.issues[0].message);
+                            } else {
+                                throw error;
+                            }
+                        }
+
                       }}>
                         <div>
                         <ul>    
-                            <li> {user ? `First Name:` : ""}  <input required name="firstName" className=" bg-off-black outline-none"type="text" placeholder={user?.firstName}/> </li>
-                            <li> {user ? `Last Name:` : ""}  <input required name="lastName" className=" bg-off-black outline-none"type="text" placeholder={user?.lastName}/> </li>
+                            <li> {user ? `First Name:` : ""}  
+                            <input required onChange={handleChange} name="firstName" className=" bg-off-black outline-none pl-1"type="text" placeholder={user?.firstName}/> 
+                            </li>
+
+                            <li> {user ? `Last Name:` : ""}  
+                            <input required onChange={handleChange} name="lastName" className=" bg-off-black outline-none pl-1"type="text" placeholder={user?.lastName}/>  </li>
                             <li> {user ? `Email: ${user.email}` : ""} </li>
-                            </ul>
-                          <input type="submit" value="Save"/>
+                        </ul>
+                          <input type="submit" value="Save"/> <br/>
+                          {<span>{formErrors}</span>} 
                           </div>
                       </form>
                   </div>
