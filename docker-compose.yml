@@ -1,0 +1,16 @@
+version: "3.3"
+
+services:
+  authentication:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: authentication:latest
+    ports:
+      - "9846:3000"
+    environment:
+      - DATABASE_URL=${DATABASE_URL}
+      - TZ=${TZ}
+
+    pull_policy: build
+    restart: always
