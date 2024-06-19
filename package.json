@@ -17,7 +17,7 @@
     "@trpc/next": "^11.0.0-next-beta.289",
     "@trpc/server": "^11.0.0-next-beta.289",
     "bcrypt": "^5.1.1",
-    "eclipse-components": "^0.0.141",
+    "eclipse-components": "^0.0.163",
     "next": "14.1.0",
     "next-auth": "^4.24.5",
     "react": "^18",

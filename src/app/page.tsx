@@ -11,6 +11,7 @@ import Link from "next/link";
 export default async function Home() {
   const user = await getSessionUser();
   const preRegistered = await isRegistered();
+
   return (
     <main className="p-4 text-left">
       <h1 className="text-3xl">
@@ -27,15 +28,19 @@ export default async function Home() {
             Settings
           </Link>
           <br />
-          {preRegistered ? ('You are preregistered!') : ("You are not yet preregistered. ")}
-
+          {preRegistered
+            ? "You are preregistered!"
+            : "You are not yet preregistered. "}
         </div>
       ) : (
-        <Link href={`${process.env.AUTH_DOMAIN}/login?callbackUrl=${process.env.DASH_DOMAIN}`} className="underline">
+        <Link
+          href={`${process.env.AUTH_DOMAIN}/login?callbackUrl=${process.env.DASH_DOMAIN}`}
+          className="underline"
+        >
           Login
         </Link>
       )}
-      
+
       <br />
     </main>
   );

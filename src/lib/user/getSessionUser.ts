@@ -1,7 +1,7 @@
 "use server";
 
 import { getServerSession } from "next-auth";
-import { prisma } from "@/server/db";
+import { prisma } from "@/lib/prisma";
 
 /**
  * Get the current session user
