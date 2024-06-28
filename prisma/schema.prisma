@@ -21,6 +21,11 @@ model User {
   createdAt    DateTime       @default(now())
   updatedAt    DateTime       @updatedAt
   LoginAttempt LoginAttempt[]
+
+  referredBy User? @relation("UserReferral", fields:[referralId], references:[id], onDelete: Cascade, onUpdate: NoAction)
+  referralId String?
+  referrals User[] @relation("UserReferral")
+
 }
 
 model Auth {
