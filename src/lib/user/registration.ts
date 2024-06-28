@@ -3,6 +3,7 @@
 import { getServerSession } from "next-auth";
 import { prisma } from "@/server/db";
 import { revalidatePath } from "next/cache";
+import Email from "next-auth/providers/email";
 // redundant, will optimize later
 export async function isRegistered() {
     const session = await getServerSession();
@@ -20,9 +21,11 @@ export async function isRegistered() {
     }
     const status = await prisma.mailingList.findUnique({
         where: {
-            id: user.id
+            userId: user.id
         }
     })
+    console.log("status is");
+    console.log(status);
     if (status?.preRegistered) {
         return true;
     }
@@ -48,10 +51,9 @@ export async function preRegister() {
 
         }
     })
-    console.log(status);
     if (status){revalidatePath("/settings");}
-    
-}   
+
+}
 export async function unRegister() {
     const session = await getServerSession();
     if (!session || !session.user || !session.user.email) {
@@ -74,4 +76,4 @@ export async function unRegister() {
     console.log(status);
     if (status){revalidatePath("/settings");}
 
-}   
+}

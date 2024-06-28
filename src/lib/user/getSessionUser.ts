@@ -20,6 +20,9 @@ export async function getSessionUser() {
     where: {
       email: email,
     },
+    include: {
+      referrals: true
+    }
   });
 
   return user;

@@ -2,7 +2,13 @@
 
 import { getSessionUser } from "@/lib/user/getSessionUser";
 import { isRegistered } from "@/lib/user/registration";
+import Client from "@/components/refferal"
 import Link from "next/link";
+
+import {
+  StarBackground,
+
+} from 'eclipse-components'
 
 /**
  * Home Page element
@@ -12,7 +18,9 @@ export default async function Home() {
   const user = await getSessionUser();
   const preRegistered = await isRegistered();
   return (
+
     <main className="p-4 text-left">
+      {/* <StarBackground/> */}
       <h1 className="text-3xl">
         {user ? `Welcome ${user.firstName}!` : "Not logged in."}
       </h1>
@@ -27,7 +35,11 @@ export default async function Home() {
             Settings
           </Link>
           <br />
-          {preRegistered ? ('You are preregistered!') : ("You are not yet preregistered. ")}
+          {preRegistered ? (
+            <div>
+            <p> You have preregistered, you can invite up to 10 of your friends! </p>
+            <Client users={user?.referrals}/>
+            </div> ) : ("You are not yet preregistered. ")}
 
         </div>
       ) : (
@@ -35,7 +47,7 @@ export default async function Home() {
           Login
         </Link>
       )}
-      
+
       <br />
     </main>
   );
