@@ -6,7 +6,7 @@ import Providers from "@/app/Providers";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Dash | Eclipse Expos",
+  title: "Registration | Eclipse Expos",
   description: "Dashboard for Eclipse Expos",
 };
 
